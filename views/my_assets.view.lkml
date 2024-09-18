@@ -232,6 +232,19 @@ view: my_assets {
     label: "记录总数"
   }
 
+  measure: claimed_asset_count {
+    type: count
+    filters: [asset_status: "在用"]  # 假设 "已认领" 表示资产已被认领的状态
+    label: "已认领资产总数"
+  }
+
+  measure: department_asset_count {
+    type: count_distinct
+    sql: ${asset_id} ;;
+    group_label: "部门资产"
+    label: "部门资产总数"
+  }
+
   measure: total_available_days {
     type: sum
     sql: DATE_DIFF(CURRENT_DATE(), ${purchase_date_date}, DAY) ;;
