@@ -1,5 +1,5 @@
 view: my_assets {
-  sql_table_name: `my_database.my_assets` ;;
+  sql_table_name: `xpeng_asset_sync.assets` ;;
 
   dimension: current_user {
     type: string
