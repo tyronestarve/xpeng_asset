@@ -26,12 +26,3 @@ persist_with: bigquery_connection_default_datagroup
 explore: my_assets {
   label: "资产分析"
 }
-
-
-explore: department_asset_summary {
-  label: "部门资产分析"
-}
-
-explore: user_asset_summary {
-  label: "个人分析"
-}
