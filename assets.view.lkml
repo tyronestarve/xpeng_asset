@@ -1,5 +1,4 @@
 view: assets {
-  sql_table_name: xpeng_asset.asset ;;
 
   # 主键
   dimension: asset_id {
@@ -287,12 +286,6 @@ view: assets {
     label: "剩余寿命（年）"
   }
 
-  dimension: residual_value {
-    type: number
-    sql: ${purchase_price} * ${residual_value_rate} ;;
-    value_format: "¥#,##0.00"
-    label: "资产残值"
-  }
   dimension: asset_configuration {
     sql: ${TABLE}.资产配置 ;;
     type: string
@@ -348,16 +341,7 @@ view: assets {
   }
   # 使用衍生表计算每个部门的资产数量
 
-  derived_table: {
-    sql:
-    SELECT
-    department,
-    COUNT(asset_id) AS department_asset_count
-    FROM
-    ${TABLE}
-    GROUP BY
-    department ;;
-  }
+
 
   dimension: department_asset_count {
     type: number
