@@ -27,7 +27,7 @@ view: my_assets {
 
   dimension: asset_life_years {
     type: number
-    sql: ${TABLE}.`设备年限` ;;
+    sql: 8 ;;
     label: "设备年限"
   }
 
@@ -265,23 +265,9 @@ view: my_assets {
     sql: DATE_DIFF(CURRENT_DATE(), ${purchase_date_date}, YEAR) ;;
     label: "已使用年限"
   }
-
-  dimension: residual_value_rate {
-    type: number
-    sql: 0.05 ;;  # 假设残值率为5%
-    label: "残值率"
-  }
-
-  dimension: residual_value {
-    type: number
-    sql: ${purchase_price} * ${residual_value_rate} ;;
-    value_format: "$#,##0.00"
-    label: "残值"
-  }
-
   dimension: annual_depreciation {
     type: number
-    sql: (${purchase_price} - ${residual_value}) / NULLIF(${asset_life_years}, 0) ;;
+    sql: ${purchase_price} * ${depreciation_rate} ;;  # 固定年折旧率为 19%
     value_format: "$#,##0.00"
     label: "年折旧额"
   }
@@ -293,9 +279,16 @@ view: my_assets {
     label: "累计折旧额"
   }
 
+  dimension: residual_value {
+    type: number
+    sql: GREATEST(0, ${purchase_price} - ${accumulated_depreciation}) ;;  # 如果残值小于 0，则等于 0
+    value_format: "$#,##0.00"
+    label: "残值"
+  }
+
   dimension: depreciation_rate {
     type: number
-    sql: CASE WHEN ${purchase_price} > 0 THEN ${accumulated_depreciation} / ${purchase_price} ELSE NULL END ;;
+    sql: 0.14 ;;  # 固定折旧率为 19%
     value_format: "0.00%"
     label: "折旧率"
   }
@@ -309,12 +302,12 @@ view: my_assets {
   dimension: configuration_level {
     type: string
     sql:
-    CASE
-      WHEN ${asset_configuration} LIKE '%高配%' THEN '高配'
-      WHEN ${asset_configuration} LIKE '%中配%' THEN '中配'
-      WHEN ${asset_configuration} LIKE '%低配%' THEN '低配'
-      ELSE '未知配置'
-    END ;;
+      CASE
+        WHEN REGEXP_CONTAINS(${asset_configuration}, r'(?i)i7') AND REGEXP_CONTAINS(${asset_configuration}, r'16G|32G') AND REGEXP_CONTAINS(${asset_configuration}, r'SSD') THEN '高配'
+        WHEN REGEXP_CONTAINS(${asset_configuration}, r'(?i)i7|(?i)i5') AND REGEXP_CONTAINS(${asset_configuration}, r'8G') THEN '中配'
+        WHEN REGEXP_CONTAINS(${asset_configuration}, r'(?i)i5') AND REGEXP_CONTAINS(${asset_configuration}, r'4G') THEN '低配'
+        ELSE '未知配置'
+      END;;
     label: "配置等级"
   }
 
