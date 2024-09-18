@@ -234,7 +234,7 @@ view: my_assets {
 
   measure: total_available_days {
     type: sum
-    sql: ${usage_days} + ${idle_days} ;;
+    sql: DATE_DIFF(CURRENT_DATE(), ${purchase_date_date}, DAY) ;;
     value_format: "#,##0"
     label: "总可用天数"
   }
