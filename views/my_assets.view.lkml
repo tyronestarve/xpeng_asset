@@ -355,4 +355,10 @@ view: my_assets {
     sql: DATE_DIFF(CURRENT_DATE(), ${return_date_date}, DAY) ;;
     label: "在库天数"
   }
+  measure: total_purchase_price_by_asset_type {
+    type: sum
+    sql: ${purchase_price} ;;
+    group_label: "资产类型"  # 添加 group_label
+    group_item_label: "购置价格总计"  # 添加 group_item_label
+  }
 }
