@@ -345,7 +345,7 @@ view: my_assets {
         WHEN REGEXP_CONTAINS(${asset_configuration}, r'(?i)i7') AND REGEXP_CONTAINS(${asset_configuration}, r'16G|32G') AND REGEXP_CONTAINS(${asset_configuration}, r'SSD') THEN '高配'
         WHEN REGEXP_CONTAINS(${asset_configuration}, r'(?i)i7|(?i)i5') AND REGEXP_CONTAINS(${asset_configuration}, r'8G') THEN '中配'
         WHEN REGEXP_CONTAINS(${asset_configuration}, r'(?i)i5') AND REGEXP_CONTAINS(${asset_configuration}, r'4G') THEN '低配'
-        ELSE '未知配置'
+        ELSE '中配'
       END;;
     label: "配置等级"
   }
