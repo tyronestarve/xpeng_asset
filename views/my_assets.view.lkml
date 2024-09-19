@@ -299,6 +299,16 @@ view: my_assets {
     label: "残值"
   }
 
+  dimension: residual_value_rate {
+    type: number
+    sql: CASE
+             WHEN ${purchase_price} > 0 THEN ${residual_value} / ${purchase_price}
+             ELSE 0
+         END ;;  # 计算残值率，避免除以 0
+    value_format: "0.00%"
+    label: "残值率"
+  }
+
   dimension: depreciation_rate {
     type: number
     sql: 0.14 ;;  # 固定折旧率为 19%
