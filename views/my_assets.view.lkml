@@ -309,6 +309,22 @@ view: my_assets {
     label: "残值率"
   }
 
+  dimension: residual_value_rate_range {
+    type: string
+    sql:
+    CASE
+      WHEN ${residual_value_rate} < 0.05 THEN '<5%'
+      WHEN ${residual_value_rate} >= 0.05 AND ${residual_value_rate} < 0.5 THEN '5%-50%'
+      WHEN ${residual_value_rate} >= 0.5 AND ${residual_value_rate} <= 1 THEN '50%-100%'
+      ELSE '其他'
+    END ;;
+    label: "残值率区间"
+  }
+  measure: count_of_assets {
+    type: count
+    drill_fields: [asset_id]
+  }
+
   dimension: depreciation_rate {
     type: number
     sql: 0.14 ;;  # 固定折旧率为 19%
