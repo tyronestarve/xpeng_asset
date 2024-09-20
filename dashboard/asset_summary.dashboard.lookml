@@ -3,9 +3,6 @@
   layout: newspaper
   preferred_viewer: dashboards-next
   tile_size: 100
-
-  filters:
-
   elements:
     - name: Asset Summary by TYpe
       type: looker_pie
