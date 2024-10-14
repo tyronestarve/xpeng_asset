@@ -170,6 +170,24 @@ view: my_assets {
     label: "麒麟日志"
   }
 
+  dimension: department_level_1 {
+    type: string
+    sql: SPLIT_PART(${department}, '/', 1) ;;
+    label: "一级部门"
+  }
+
+  dimension: department_level_2 {
+    type: string
+    sql: SPLIT_PART(${department}, '/', 2) ;;
+    label: "二级部门"
+  }
+
+  dimension: department_level_3 {
+    type: string
+    sql: SPLIT_PART(${department}, '/', 3) ;;
+    label: "三级部门"
+  }
+
   dimension_group: purchase_date {
     type: time
     timeframes: [raw, date, week, month, quarter, year]
